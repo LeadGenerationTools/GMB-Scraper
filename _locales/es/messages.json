@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Raspador de GMB",
+    "description": "El nombre de la extensión."
+  },
+  "extDesc": {
+    "message": "Un clic para extraer datos de negocios locales de G My Business y exportar clientes potenciales a archivos CSV.",
+    "description": "La descripción de la extensión."
+  }
+}

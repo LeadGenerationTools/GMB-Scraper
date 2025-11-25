@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "GMB Scraper",
+    "description": "\b扩展名。"
+  },
+  "extDesc": {
+    "message": "G My Business提取本地企业数据并将潜在客户导出为CSV文件。",
+    "description": "扩展描述。"
+  }
+}

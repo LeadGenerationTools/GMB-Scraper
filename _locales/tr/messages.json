@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "GMB Kazıyıcı",
+    "description": "Uzantı adı."
+  },
+  "extDesc": {
+    "message": "Google My Business'dan Yerel İşletme Verilerini çıkarmak ve potansiyel müşterileri CSV dosyalarına aktarmak için bir tıklama.",
+    "description": "Uzantının açıklaması."
+  }
+}

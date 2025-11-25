@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo Page</title>
+    <link href="lib/tabulator2/css/tabulator_semanticui.min.css" rel="stylesheet" />
+    <link href="css/dashboard.css" rel="stylesheet" />
+    <script type="text/javascript" src="lib/tabulator2/js/tabulator.min.js"></script>
+    <script type="text/javascript" src="lib/xlsx.full.min.js"></script>
+    <script src="lib/fetch.umd.js"></script>
+    <script src="lib/jquery-3.1.1.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="auth/config.js"></script>
+    <script src="auth/pay/rolecheck.js"></script>
+</head>
+
+<body>
+    <div id="maincontent">
+        <div id="content">
+            <h1>Demo data for extracting reviews for a coffee shop near New York. </h1>
+            <!-- <h3>Access to certain data, such as email addresses and social media links, requires a Professional plan.</h3> -->
+            <div style="display: flex; flex-direction: row; gap: 20px;">
+                <div style="display: flex; gap: 20px;">
+                    <button id="download-csv">Download CSV</button>
+                    <button id="download-xlsx">Download XLSX</button>
+                </div>
+            </div>
+            <div><span id="datastatus" style="color: red;"></span></div>
+            <div id="example-table"></div>
+        </div>
+    </div>
+</body>
+<script src="js/demo_review.js"></script>
+
+</html>

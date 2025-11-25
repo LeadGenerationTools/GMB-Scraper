@@ -1,0 +1,1 @@
+window.addEventListener("message",function(b){if("login"==b.data.type){const a=b.data.data;console.log(a);chrome.storage.sync.set(a,function(){console.log("login success: ",a);alert("Login Success, Please reopen the extension!");window.close()})}});

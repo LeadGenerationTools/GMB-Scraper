@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Extracteur GMB",
+    "description": "Le nom de l'extension."
+  },
+  "extDesc": {
+    "message": "Un clic pour extraire les données des entreprises locales de G My Business et exporter les prospects vers des fichiers CSV.",
+    "description": "La description de l'extension."
+  }
+}

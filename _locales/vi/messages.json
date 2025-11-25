@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Trình khai thác GMB",
+    "description": "Tên tiện ích mở rộng."
+  },
+  "extDesc": {
+    "message": "Một cú nhấp chuột để trích xuất Dữ liệu Doanh nghiệp Địa phương từ Google My Business và xuất khách hàng tiềm năng ra tệp CSV.",
+    "description": "Mô tả của tiện ích mở rộng."
+  }
+}

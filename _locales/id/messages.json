@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Pengikis GMB",
+    "description": "Nama ekstensi."
+  },
+  "extDesc": {
+    "message": "Satu klik untuk mengekstrak Data Bisnis Lokal dari Google My Business dan mengekspor prospek ke file CSV.",
+    "description": "Deskripsi ekstensi."
+  }
+}

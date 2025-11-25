@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Kichimbaji cha GMB",
+    "description": "Jina la kichimbaji."
+  },
+  "extDesc": {
+    "message": "Bonyeza moja kuchimbua Data ya Biashara za Mitaa kutoka Google My Business na kuuza miongozo kwa faili za CSV.",
+    "description": "Maelezo ya kichimbaji."
+  }
+}

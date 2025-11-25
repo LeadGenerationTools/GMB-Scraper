@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "GMB Scraper",
+    "description": "De extensienaam."
+  },
+  "extDesc": {
+    "message": "Met één klik lokale bedrijfsgegevens extraheren uit Google My Business en leads exporteren naar CSV-bestanden.",
+    "description": "De beschrijving van de extensie."
+  }
+}

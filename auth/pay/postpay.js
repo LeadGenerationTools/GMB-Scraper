@@ -1,0 +1,1 @@
+function getQueryString(a){a=new RegExp("(^|&)"+a+"=([^&]*)(&|$)","i");a=window.location.search.substr(1).match(a);return null!=a?decodeURIComponent(a[2]):null}document.getElementById("fblink").href=config.feedback_url;

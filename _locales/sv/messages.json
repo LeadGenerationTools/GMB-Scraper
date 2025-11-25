@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "GMB Skrapa",
+    "description": "The extension name."
+  },
+  "extDesc": {
+    "message": "Ett klick för att extrahera lokala företagsdata från Google My Business och exportera leads till CSV-filer.",
+    "description": "The description of extension."
+  }
+}

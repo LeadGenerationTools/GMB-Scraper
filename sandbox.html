@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sandbox</title>
+</head>
+<body>
+<script>
+// Helper function to add timestamp prefix to console logs
+function getTimestamp() {
+    var now = new Date();
+    return '[' + now.toISOString() + ']';
+}
+
+// This sandboxed page can execute arbitrary scripts without CSP restrictions
+// It communicates with the content script via postMessage
+
+// Queue to handle parallel requests sequentially
+var requestQueue = [];
+var isProcessing = false;
+
+function processNextRequest() {
+    if (isProcessing || requestQueue.length === 0) {
+        return;
+    }
+
+    isProcessing = true;
+    var request = requestQueue.shift();
+    var requestId = request.requestId;
+    var htmlContent = request.html;
+    var source = request.source;
+
+    console.log(getTimestamp(), 'Processing request', requestId);
+    console.log(getTimestamp(), 'HTML length:', htmlContent.length);
+
+    // First, try to extract APP_INITIALIZATION_STATE directly from the HTML string using regex
+    // This is more reliable than trying to execute scripts
+    var statePatterns = [
+        /window\.APP_INITIALIZATION_STATE\s*=\s*(\[[\s\S]*?\]);/,
+        /var\s+APP_INITIALIZATION_STATE\s*=\s*(\[[\s\S]*?\]);/,
+        /APP_INITIALIZATION_STATE\s*=\s*(\[[\s\S]*?\]);/,
+        /"APP_INITIALIZATION_STATE"\s*:\s*(\[[\s\S]*?\])\s*[,}]/,
+        /APP_INITIALIZATION_STATE\s*=\s*(\[[^\]]*\])/
+    ];
+
+    var appStateString = null;
+    var matchedPattern = null;
+
+    for (var p = 0; p < statePatterns.length; p++) {
+        var match = htmlContent.match(statePatterns[p]);
+        if (match && match[1]) {
+            appStateString = match[1];
+            matchedPattern = p;
+            console.log(getTimestamp(), 'Found APP_INITIALIZATION_STATE using pattern', p, 'for request', requestId);
+            break;
+        }
+    }
+
+    if (appStateString) {
+        // Try to parse the extracted data
+        try {
+            var appState = JSON.parse(appStateString);
+            console.log(getTimestamp(), 'Successfully parsed APP_INITIALIZATION_STATE for request', requestId);
+
+            source.postMessage({
+                action: 'appStateExtracted',
+                requestId: requestId,
+                success: true,
+                data: appState
+            }, '*');
+
+            // Process next request
+            isProcessing = false;
+            setTimeout(processNextRequest, 10);
+            return;
+
+        } catch (parseErr) {
+            console.error(getTimestamp(), 'Failed to parse APP_INITIALIZATION_STATE:', parseErr.message);
+            console.log(getTimestamp(), 'Extracted string preview:', appStateString.substring(0, 500));
+        }
+    }
+
+    // If regex extraction failed, try executing scripts
+    console.log(getTimestamp(), 'Regex extraction failed, trying script execution...');
+
+    // Extract all inline script content
+    var scriptRegex = /<script(?:\s+[^>]*)?>([\s\S]*?)<\/script>/gi;
+    var scripts = [];
+    var scriptMatch;
+
+    while ((scriptMatch = scriptRegex.exec(htmlContent)) !== null) {
+        // Skip script tags with src attribute (external scripts)
+        var scriptTag = scriptMatch[0];
+        if (!/\ssrc\s*=/.test(scriptTag)) {
+            scripts.push(scriptMatch[1]);
+        }
+    }
+
+    console.log(getTimestamp(), 'Found ' + scripts.length + ' inline scripts to execute for request', requestId);
+
+    // Execute each script in this window's global context
+    try {
+        for (var i = 0; i < scripts.length; i++) {
+            try {
+                // Use indirect eval to execute in global scope
+                (1, eval)(scripts[i]);
+            } catch (scriptErr) {
+                console.warn(getTimestamp(), 'Script ' + i + ' execution error:', scriptErr.message);
+                // Continue executing other scripts
+            }
+        }
+
+        // Check for APP_INITIALIZATION_STATE with retries
+        var attempts = 0;
+        var maxAttempts = 10;
+
+        var checkForState = function() {
+            attempts++;
+
+            if (typeof window.APP_INITIALIZATION_STATE !== 'undefined') {
+                console.log(getTimestamp(), 'APP_INITIALIZATION_STATE found on attempt', attempts, 'for request', requestId);
+
+                // Clone the data before deleting
+                var data = window.APP_INITIALIZATION_STATE;
+
+                source.postMessage({
+                    action: 'appStateExtracted',
+                    requestId: requestId,
+                    success: true,
+                    data: data
+                }, '*');
+
+                // Clean up
+                delete window.APP_INITIALIZATION_STATE;
+
+                // Process next request
+                isProcessing = false;
+                setTimeout(processNextRequest, 10);
+
+            } else if (attempts < maxAttempts) {
+                setTimeout(checkForState, 300);
+            } else {
+                console.error(getTimestamp(), 'APP_INITIALIZATION_STATE not found after', maxAttempts, 'attempts for request', requestId);
+                console.log(getTimestamp(), 'Available window properties:', Object.keys(window).filter(function(k) {
+                    return k.includes('APP') || k.includes('STATE') || k.includes('INIT');
+                }));
+                console.log(getTimestamp(), 'HTML preview:', htmlContent.substring(0, 1000));
+
+                source.postMessage({
+                    action: 'appStateExtracted',
+                    requestId: requestId,
+                    success: false,
+                    error: 'APP_INITIALIZATION_STATE not found after ' + maxAttempts + ' attempts'
+                }, '*');
+
+                // Process next request
+                isProcessing = false;
+                setTimeout(processNextRequest, 10);
+            }
+        };
+
+        // Start checking after a brief delay
+        setTimeout(checkForState, 100);
+
+    } catch (err) {
+        source.postMessage({
+            action: 'appStateExtracted',
+            requestId: requestId,
+            success: false,
+            error: 'Script execution error: ' + err.message
+        }, '*');
+
+        // Process next request
+        isProcessing = false;
+        setTimeout(processNextRequest, 10);
+    }
+}
+
+window.addEventListener('message', function(event) {
+    try {
+        if (event.data.action === 'extractAppState') {
+            console.log(getTimestamp(), 'Received extractAppState request:', event.data.requestId);
+
+            // Add request to queue
+            requestQueue.push({
+                requestId: event.data.requestId,
+                html: event.data.html,
+                source: event.source
+            });
+
+            console.log(getTimestamp(), 'Queue length:', requestQueue.length);
+
+            // Start processing if not already processing
+            processNextRequest();
+        }
+    } catch (err) {
+        console.error(getTimestamp(), 'Error handling message:', err);
+        event.source.postMessage({
+            action: 'appStateExtracted',
+            requestId: event.data.requestId,
+            success: false,
+            error: 'Sandbox error: ' + err.message
+        }, '*');
+    }
+});
+
+// Signal that sandbox is ready
+window.parent.postMessage({action: 'sandboxReady'}, '*');
+console.log(getTimestamp(), 'Sandbox initialized and ready');
+</script>
+</body>
+</html>

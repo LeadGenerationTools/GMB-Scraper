@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "GMB 스크레이퍼",
+    "description": "확장 프로그램 이름."
+  },
+  "extDesc": {
+    "message": "Google My Business에서 지역 비즈니스 데이터를 한 번의 클릭으로 추출하고 리드를 CSV 파일로 내보냅니다.",
+    "description": "확장 프로그램 설명."
+  }
+}

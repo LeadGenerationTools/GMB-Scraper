@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Coletor GMB",
+    "description": "O nome da extensão."
+  },
+  "extDesc": {
+    "message": "Um clique para extrair Dados de Empresas Locais do Google Meu Negócio e exportar leads para arquivos CSV.",
+    "description": "A descrição da extensão."
+  }
+}

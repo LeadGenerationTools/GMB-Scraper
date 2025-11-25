@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "GMB スクレイパー",
+    "description": "拡張機能の名前。"
+  },
+  "extDesc": {
+    "message": "Google マイ ビジネスからローカルビジネスデータを抽出し、リードを CSV ファイルにエクスポートするためのワンクリック。",
+    "description": "拡張機能の説明。"
+  }
+}

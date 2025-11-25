@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "GMB Scraper",
+    "description": "Il nome dell'estensione."
+  },
+  "extDesc": {
+    "message": "Un clic per estrarre i dati delle attività locali da Google My Business e esportare i contatti in file CSV.",
+    "description": "La descrizione dell'estensione."
+  }
+}

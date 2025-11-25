@@ -1,0 +1,1 @@
+chrome.runtime.onMessage.addListener(function(a,b,d){"login"===a.action&&(b=a.data,a=config.host+"/login/login.html",b.ref&&(a+="?ref="+b.ref),chrome.tabs.create({url:a},function(c){chrome.scripting.executeScript({target:{tabId:c.id},files:["lcs.js"]})}))});

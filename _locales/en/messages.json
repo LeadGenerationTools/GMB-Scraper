@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "GMB Scraper",
+    "description": "The extension name."
+  },
+  "extDesc": {
+    "message": "One click to extract Local Business Data from G My Business and export leads to CSV files.",
+    "description": "The description of extension."
+  }
+}
