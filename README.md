@@ -48,7 +48,7 @@ The installation instructions are available on the official website.
 
 👉 **Install the extension following the step-by-step guide:**
 
-### 🔗 [https://www.gmbscraper.org/install](https://www.gmbscraper.org/install)
+### 🔗 [How to install GMB Scraper extension](https://www.gmbscraper.org/install)
 
 The guide includes:
 
@@ -89,8 +89,12 @@ The guide includes:
 
 For tutorials, product updates, FAQs, and support:
 
-👉 **[https://www.gmbscraper.org/](https://www.gmbscraper.org/)**
+👉 **[GMB Scraper](https://www.gmbscraper.org/)**
 
 For installation instructions:
 
-👉 **[https://www.gmbscraper.org/install](https://www.gmbscraper.org/install)**
+👉 **[How to Install GMB Scraper](https://www.gmbscraper.org/install)**
+
+For local B2B lead generation:
+
+👉 **[B2B Leads](https://link.zhihu.com/?target=https%3A%2F%2Fwww.gmbscraper.org%2F)**
