@@ -9,9 +9,11 @@
     z-index: 10000;
     border-bottom: 1px solid #ccc;
     background-color: #000;
-    width: 100%;
+    height: 50px;
     position: fixed;
     top: 0;
+    right: 0;
+    margin: 0;
 }
 
 
